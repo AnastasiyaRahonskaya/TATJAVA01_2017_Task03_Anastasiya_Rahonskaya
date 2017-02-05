@@ -1,0 +1,5 @@
+add_new/Film/La La Land/Emma/09.01.2017
+find_by_category/Film
+find_by_title/Anna Karenina
+find_by_author/Ray
+find_by_date/07.07.2007

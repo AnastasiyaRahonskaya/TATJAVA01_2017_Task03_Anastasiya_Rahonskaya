@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog>
+    <staff category="Film">
+        <title>Terminator</title>
+        <author>Jane</author>
+        <date>26.10.1984</date>
+    </staff>
+    <staff category="Book">
+        <title>Anna Karenina</title>
+        <author>Joe</author>
+        <date>06.08.1877</date>
+    </staff>
+    <staff category="Book">
+        <title>Fahrenheit 451</title>
+        <author>Ray</author>
+        <date>15.10.1953</date>
+    </staff>
+    <staff category="DVD">
+        <title>Music</title>
+        <author>Pole</author>
+        <date>07.07.2007</date>
+    </staff>
+</catalog>
