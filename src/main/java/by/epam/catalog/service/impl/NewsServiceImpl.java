@@ -19,8 +19,11 @@ public class NewsServiceImpl implements NewsService {
    */
   @Override
   public void addNew(News news) throws ServiceException {
+    if (validation(news)) {
+      throw new ServiceException("Error while adding the news!");
+    }
+    DAOFactory daoObjectFactory = DAOFactory.getInstance();
     try {
-      DAOFactory daoObjectFactory = DAOFactory.getInstance();
       NewsDAO newsDAO = daoObjectFactory.getNewsDAO();
       newsDAO.addNew(news);
     } catch (DAOException e) {
@@ -36,6 +39,9 @@ public class NewsServiceImpl implements NewsService {
    */
   @Override
   public void findByCategory(String category) throws ServiceException {
+    if (validation(category)) {
+      throw new ServiceException("Error while finding by Category!");
+    }
     try {
       DAOFactory daoObjectFactory = DAOFactory.getInstance();
       NewsDAO newsDAO = daoObjectFactory.getNewsDAO();
@@ -53,6 +59,9 @@ public class NewsServiceImpl implements NewsService {
    */
   @Override
   public void findByTitle(String title) throws ServiceException {
+    if (validation(title)) {
+      throw new ServiceException("Error while finding by Category!");
+    }
     try {
       DAOFactory daoObjectFactory = DAOFactory.getInstance();
       NewsDAO newsDAO = daoObjectFactory.getNewsDAO();
@@ -70,6 +79,9 @@ public class NewsServiceImpl implements NewsService {
    */
   @Override
   public void findByAuthor(String author) throws ServiceException {
+    if (validation(author)) {
+      throw new ServiceException("Error while finding by Category!");
+    }
     try {
       DAOFactory daoObjectFactory = DAOFactory.getInstance();
       NewsDAO newsDAO = daoObjectFactory.getNewsDAO();
@@ -87,12 +99,45 @@ public class NewsServiceImpl implements NewsService {
    */
   @Override
   public void findByDate(String date) throws ServiceException {
+    if (validation(date)) {
+      throw new ServiceException("Error while finding by Category!");
+    }
     try {
       DAOFactory daoObjectFactory = DAOFactory.getInstance();
       NewsDAO newsDAO = daoObjectFactory.getNewsDAO();
       newsDAO.findByDate(date);
     } catch (DAOException e) {
       throw new ServiceException("Wrong data in finding news by date!NewsServiceImpl");
+    }
+  }
+
+  /**
+   * method is for validate input data
+   *
+   * @param news - object of the class News
+   * @return true, if one of the fields of the object news is empty,
+   * otherwise false
+   */
+  public boolean validation(News news) {
+    if (news.getCategory().isEmpty() | news.getAuthor().isEmpty() | news.getTitle().isEmpty() | news.getDate().isEmpty()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * method is for validate input data
+   *
+   * @param s - input data
+   * @return true, if one of the fields of the object news is empty,
+   * otherwise false
+   */
+  public boolean validation(String s) {
+    if (s.isEmpty()) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

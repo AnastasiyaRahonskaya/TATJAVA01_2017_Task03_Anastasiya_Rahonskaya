@@ -1,14 +1,19 @@
 package by.epam.catalog.bean;
 
+import java.io.Serializable;
+
 /**
  * Class contains constructor and getters
  * for News' class fields
  */
-public class News {
+public class News implements Serializable {
   private String category;
   private String title;
   private String author;
   private String date;
+
+  public News() {
+  }
 
   public News(String category, String title, String author, String date) {
     this.category = category;

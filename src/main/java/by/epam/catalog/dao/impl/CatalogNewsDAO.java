@@ -17,20 +17,15 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The inner interface implementation of the DAO layer
  */
 public class CatalogNewsDAO implements NewsDAO {
-  private CatalogReader fileReader;
-  private CatalogParser fileParser;
-  private ArrayList<String> list;
-  private final String CATEGORY = "category";
-  private final String TITLE = "title";
-  private final String AUTHOR = "author";
-  private final String DATE = "date";
+  private static final String CATEGORY = "category";
+  private static final String TITLE = "title";
+  private static final String AUTHOR = "author";
+  private static final String DATE = "date";
 
 
   /**
@@ -51,10 +46,6 @@ public class CatalogNewsDAO implements NewsDAO {
       Document doc = db.parse(xmlFile);
       doc.normalize();
       Node catalog = doc.getFirstChild();
-
-      if (news.getCategory().isEmpty() | news.getAuthor().isEmpty() | news.getTitle().isEmpty() | news.getDate().isEmpty()) {
-        throw new DAOException("Error while adding the news!");
-      }
 
       Element staff = doc.createElement(STAFF);
       staff.setAttribute(CATEGORY, news.getCategory());
@@ -81,12 +72,8 @@ public class CatalogNewsDAO implements NewsDAO {
       System.out.println("The new added.\n");
     } catch (SAXException | IOException | ParserConfigurationException
         | TransformerConfigurationException e) {
-//      Logger.getLogger(CatalogNewsDAO.class.getName())
-//          .log(Level.SEVERE, null, e);
       throw new DAOException("Error while adding the new!");
     } catch (TransformerException e) {
-//      Logger.getLogger(CatalogNewsDAO.class.getName())
-//          .log(Level.SEVERE, null, e);
       throw new DAOException("Error while adding the new!");
     }
     return news;
@@ -100,20 +87,20 @@ public class CatalogNewsDAO implements NewsDAO {
    */
   @Override
   public ArrayList<String> findByCategory(String category) throws DAOException {
-    fileReader = new CatalogReader();
-    fileParser = new CatalogParser();
-    list = new ArrayList<>();
+    CatalogReader catalogReader = new CatalogReader();
+    CatalogParser catalogParser = new CatalogParser();
+    ArrayList<String> list = new ArrayList<>();
     try {
-      for (int i = 0; i < fileReader.readFile().getLength(); i++) {
-        Node nNode = fileReader.readFile().item(i);
+      for (int i = 0; i < catalogReader.readFile().getLength(); i++) {
+        Node nNode = catalogReader.readFile().item(i);
         Element eElement = (Element) nNode;
         if (eElement.getAttribute(CATEGORY).equals(category)) {
-          list = fileParser.addToList(eElement);
+          list = catalogParser.addToList(eElement);
           System.out.println();
         }
       }
-      if (list.isEmpty()) {
-        throw new DAOException("Error while finding the news by category!");
+      if (list == null) {
+        System.out.println("Unfortunately, we don't have news with this category.");
       }
     } catch (Exception e) {
       throw new DAOException("Error while finding the news by category!");
@@ -129,20 +116,20 @@ public class CatalogNewsDAO implements NewsDAO {
    */
   @Override
   public ArrayList<String> findByTitle(String title) throws DAOException {
-    fileReader = new CatalogReader();
-    fileParser = new CatalogParser();
-    list = new ArrayList<>();
+    CatalogReader catalogReader = new CatalogReader();
+    CatalogParser catalogParser = new CatalogParser();
+    ArrayList<String> list = new ArrayList<>();
     try {
-      for (int i = 0; i < fileReader.readFile().getLength(); i++) {
-        Node nNode = fileReader.readFile().item(i);
+      for (int i = 0; i < catalogReader.readFile().getLength(); i++) {
+        Node nNode = catalogReader.readFile().item(i);
         Element eElement = (Element) nNode;
         if (eElement.getElementsByTagName(TITLE).item(0).getTextContent().equals(title)) {
-          list = fileParser.addToList(eElement);
+          list = catalogParser.addToList(eElement);
           System.out.println();
         }
       }
-      if (list.isEmpty()) {
-        throw new DAOException("Error while finding the news by title!");
+      if (list == null) {
+        System.out.println("Unfortunately, we don't have news with this title.");
       }
     } catch (Exception e) {
       throw new DAOException("Error while finding the news bt title!");
@@ -158,20 +145,20 @@ public class CatalogNewsDAO implements NewsDAO {
    */
   @Override
   public ArrayList<String> findByAuthor(String author) throws DAOException {
-    fileReader = new CatalogReader();
-    fileParser = new CatalogParser();
-    list = new ArrayList<>();
+    CatalogReader catalogReader = new CatalogReader();
+    CatalogParser catalogParser= new CatalogParser();
+    ArrayList<String> list = new ArrayList<>();
     try {
-      for (int i = 0; i < fileReader.readFile().getLength(); i++) {
-        Node nNode = fileReader.readFile().item(i);
+      for (int i = 0; i < catalogReader.readFile().getLength(); i++) {
+        Node nNode = catalogReader.readFile().item(i);
         Element eElement = (Element) nNode;
         if (eElement.getElementsByTagName(AUTHOR).item(0).getTextContent().equals(author)) {
-          list = fileParser.addToList(eElement);
+          list = catalogParser.addToList(eElement);
           System.out.println();
         }
       }
-      if (list.isEmpty()) {
-        throw new DAOException("Error while finding the news by author!");
+      if (list == null) {
+        System.out.println("Unfortunately, we don't have news with this author.");
       }
     } catch (Exception e) {
       throw new DAOException("Error while finding the news by author!");
@@ -187,20 +174,20 @@ public class CatalogNewsDAO implements NewsDAO {
    */
   @Override
   public ArrayList<String> findByDate(String date) throws DAOException {
-    fileReader = new CatalogReader();
-    fileParser = new CatalogParser();
-    list = new ArrayList<>();
+    CatalogReader catalogReader= new CatalogReader();
+    CatalogParser catalogParser = new CatalogParser();
+    ArrayList<String> list = new ArrayList<>();
     try {
-      for (int i = 0; i < fileReader.readFile().getLength(); i++) {
-        Node nNode = fileReader.readFile().item(i);
+      for (int i = 0; i < catalogReader.readFile().getLength(); i++) {
+        Node nNode = catalogReader.readFile().item(i);
         Element eElement = (Element) nNode;
         if (eElement.getElementsByTagName(DATE).item(0).getTextContent().equals(date)) {
-          list = fileParser.addToList(eElement);
+          list = catalogParser.addToList(eElement);
           System.out.println();
         }
       }
-      if (list.isEmpty()) {
-        throw new DAOException("Error while finding the news by date!");
+      if (list == null) {
+        System.out.println("Unfortunately, we don't have news with this date.");
       }
     } catch (Exception e) {
       throw new DAOException("Error while finding the new by date!");
