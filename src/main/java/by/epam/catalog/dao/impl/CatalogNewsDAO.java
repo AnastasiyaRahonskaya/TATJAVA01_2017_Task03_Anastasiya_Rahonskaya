@@ -35,9 +35,10 @@ public class CatalogNewsDAO implements NewsDAO {
    * @throws DAOException - exceptions caused by DAO layer
    */
   @Override
-  public News addNew(News news) throws DAOException {
+  public String addNew(News news) throws DAOException {
     String FILENAME = "Catalog.xml";
     String STAFF = "staff";
+    String resultAdding = null;
     try {
       final String filepath = System.getProperty("user.dir")
           + File.separator + FILENAME;
@@ -69,14 +70,14 @@ public class CatalogNewsDAO implements NewsDAO {
       DOMSource source = new DOMSource(doc);
       StreamResult result = new StreamResult(new File(filepath));
       transformer.transform(source, result);
-      System.out.println("The new added.\n");
+      resultAdding = "The new added.";
     } catch (SAXException | IOException | ParserConfigurationException
         | TransformerConfigurationException e) {
       throw new DAOException("Error while adding the new!");
     } catch (TransformerException e) {
       throw new DAOException("Error while adding the new!");
     }
-    return news;
+    return resultAdding;
   }
 
   /**
@@ -96,14 +97,13 @@ public class CatalogNewsDAO implements NewsDAO {
         Element eElement = (Element) nNode;
         if (eElement.getAttribute(CATEGORY).equals(category)) {
           list = catalogParser.addToList(eElement);
-          System.out.println();
         }
       }
       if (list == null) {
-        System.out.println("Unfortunately, we don't have news with this category.");
+        throw new DAOException("Unfortunately, we don't have news with this category.");
       }
     } catch (Exception e) {
-      throw new DAOException("Error while finding the news by category!");
+      throw new DAOException(e);
     }
     return list;
   }
@@ -125,14 +125,13 @@ public class CatalogNewsDAO implements NewsDAO {
         Element eElement = (Element) nNode;
         if (eElement.getElementsByTagName(TITLE).item(0).getTextContent().equals(title)) {
           list = catalogParser.addToList(eElement);
-          System.out.println();
         }
       }
       if (list == null) {
-        System.out.println("Unfortunately, we don't have news with this title.");
+        throw new DAOException("Unfortunately, we don't have news with this title.");
       }
     } catch (Exception e) {
-      throw new DAOException("Error while finding the news bt title!");
+      throw new DAOException(e);
     }
     return list;
   }
@@ -146,7 +145,7 @@ public class CatalogNewsDAO implements NewsDAO {
   @Override
   public ArrayList<String> findByAuthor(String author) throws DAOException {
     CatalogReader catalogReader = new CatalogReader();
-    CatalogParser catalogParser= new CatalogParser();
+    CatalogParser catalogParser = new CatalogParser();
     ArrayList<String> list = new ArrayList<>();
     try {
       for (int i = 0; i < catalogReader.readFile().getLength(); i++) {
@@ -154,14 +153,13 @@ public class CatalogNewsDAO implements NewsDAO {
         Element eElement = (Element) nNode;
         if (eElement.getElementsByTagName(AUTHOR).item(0).getTextContent().equals(author)) {
           list = catalogParser.addToList(eElement);
-          System.out.println();
         }
       }
       if (list == null) {
-        System.out.println("Unfortunately, we don't have news with this author.");
+        throw new DAOException("Unfortunately, we don't have news with this author.");
       }
     } catch (Exception e) {
-      throw new DAOException("Error while finding the news by author!");
+      throw new DAOException(e);
     }
     return list;
   }
@@ -174,7 +172,7 @@ public class CatalogNewsDAO implements NewsDAO {
    */
   @Override
   public ArrayList<String> findByDate(String date) throws DAOException {
-    CatalogReader catalogReader= new CatalogReader();
+    CatalogReader catalogReader = new CatalogReader();
     CatalogParser catalogParser = new CatalogParser();
     ArrayList<String> list = new ArrayList<>();
     try {
@@ -183,14 +181,13 @@ public class CatalogNewsDAO implements NewsDAO {
         Element eElement = (Element) nNode;
         if (eElement.getElementsByTagName(DATE).item(0).getTextContent().equals(date)) {
           list = catalogParser.addToList(eElement);
-          System.out.println();
         }
       }
       if (list == null) {
-        System.out.println("Unfortunately, we don't have news with this date.");
+        throw new DAOException("Unfortunately, we don't have news with this date.");
       }
     } catch (Exception e) {
-      throw new DAOException("Error while finding the new by date!");
+      throw new DAOException(e);
     }
     return list;
   }

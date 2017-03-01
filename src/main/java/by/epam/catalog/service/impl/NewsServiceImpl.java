@@ -7,10 +7,13 @@ import by.epam.catalog.dao.factory.DAOFactory;
 import by.epam.catalog.service.NewsService;
 import by.epam.catalog.service.exception.ServiceException;
 
+import java.util.ArrayList;
+
 /**
  * Class contains the implementation of the interface NewsService
  */
 public class NewsServiceImpl implements NewsService {
+  private ArrayList<String> list;
   /**
    * method is for adding the new
    *
@@ -18,17 +21,17 @@ public class NewsServiceImpl implements NewsService {
    * @throws ServiceException - exceptions caused by Service layer
    */
   @Override
-  public void addNew(News news) throws ServiceException {
-    if (validation(news)) {
-      throw new ServiceException("Error while adding the news!");
-    }
+  public String addNew(News news) throws ServiceException {
+    validation(news);
     DAOFactory daoObjectFactory = DAOFactory.getInstance();
+    String resultAdding = null;
     try {
       NewsDAO newsDAO = daoObjectFactory.getNewsDAO();
-      newsDAO.addNew(news);
+      resultAdding = newsDAO.addNew(news);
     } catch (DAOException e) {
-      throw new ServiceException("Wrong data in adding new!NewsServiceImpl");
+      throw new ServiceException(e);
     }
+    return resultAdding;
   }
 
   /**
@@ -38,17 +41,16 @@ public class NewsServiceImpl implements NewsService {
    * @throws ServiceException - exceptions caused by Service layer
    */
   @Override
-  public void findByCategory(String category) throws ServiceException {
-    if (validation(category)) {
-      throw new ServiceException("Error while finding by Category!");
-    }
+  public ArrayList<String> findByCategory(String category) throws ServiceException {
+    validation(category);
     try {
       DAOFactory daoObjectFactory = DAOFactory.getInstance();
       NewsDAO newsDAO = daoObjectFactory.getNewsDAO();
-      newsDAO.findByCategory(category);
+      list = newsDAO.findByCategory(category);
     } catch (DAOException e) {
-      throw new ServiceException("Fail while find the new by category!NewsServiceImpl");
+      throw new ServiceException(e);
     }
+    return list;
   }
 
   /**
@@ -58,17 +60,16 @@ public class NewsServiceImpl implements NewsService {
    * @throws ServiceException - exceptions caused by Service layer
    */
   @Override
-  public void findByTitle(String title) throws ServiceException {
-    if (validation(title)) {
-      throw new ServiceException("Error while finding by Category!");
-    }
+  public ArrayList<String> findByTitle(String title) throws ServiceException {
+    validation(title);
     try {
       DAOFactory daoObjectFactory = DAOFactory.getInstance();
       NewsDAO newsDAO = daoObjectFactory.getNewsDAO();
-      newsDAO.findByTitle(title);
+      list = newsDAO.findByTitle(title);
     } catch (DAOException e) {
-      throw new ServiceException("Wrong data in finding news by title!NewsServiceImpl");
+      throw new ServiceException(e);
     }
+    return list;
   }
 
   /**
@@ -78,17 +79,16 @@ public class NewsServiceImpl implements NewsService {
    * @throws ServiceException - exceptions caused by Service layer
    */
   @Override
-  public void findByAuthor(String author) throws ServiceException {
-    if (validation(author)) {
-      throw new ServiceException("Error while finding by Category!");
-    }
+  public ArrayList<String> findByAuthor(String author) throws ServiceException {
+    validation(author);
     try {
       DAOFactory daoObjectFactory = DAOFactory.getInstance();
       NewsDAO newsDAO = daoObjectFactory.getNewsDAO();
-      newsDAO.findByAuthor(author);
+      list = newsDAO.findByAuthor(author);
     } catch (DAOException e) {
-      throw new ServiceException("Wrong data in finding news by author!NewsServiceImpl");
+      throw new ServiceException(e);
     }
+    return list;
   }
 
   /**
@@ -98,31 +98,26 @@ public class NewsServiceImpl implements NewsService {
    * @throws ServiceException - exceptions caused by Service layer
    */
   @Override
-  public void findByDate(String date) throws ServiceException {
-    if (validation(date)) {
-      throw new ServiceException("Error while finding by Category!");
-    }
+  public ArrayList<String> findByDate(String date) throws ServiceException {
+    validation(date);
     try {
       DAOFactory daoObjectFactory = DAOFactory.getInstance();
       NewsDAO newsDAO = daoObjectFactory.getNewsDAO();
-      newsDAO.findByDate(date);
+      list = newsDAO.findByDate(date);
     } catch (DAOException e) {
-      throw new ServiceException("Wrong data in finding news by date!NewsServiceImpl");
+      throw new ServiceException(e);
     }
+    return list;
   }
 
   /**
    * method is for validate input data
    *
    * @param news - object of the class News
-   * @return true, if one of the fields of the object news is empty,
-   * otherwise false
    */
-  public boolean validation(News news) {
+  public void validation(News news) throws ServiceException {
     if (news.getCategory().isEmpty() | news.getAuthor().isEmpty() | news.getTitle().isEmpty() | news.getDate().isEmpty()) {
-      return true;
-    } else {
-      return false;
+      throw new ServiceException("Error while adding the news!");
     }
   }
 
@@ -130,14 +125,10 @@ public class NewsServiceImpl implements NewsService {
    * method is for validate input data
    *
    * @param s - input data
-   * @return true, if one of the fields of the object news is empty,
-   * otherwise false
    */
-  public boolean validation(String s) {
+  public void validation(String s) throws ServiceException{
     if (s.isEmpty()) {
-      return true;
-    } else {
-      return false;
+      throw new ServiceException("Error!");
     }
   }
 }

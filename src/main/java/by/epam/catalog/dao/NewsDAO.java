@@ -15,7 +15,7 @@ public interface NewsDAO {
    * @param news - object of the class News
    * @throws DAOException - exceptions caused by DAO layer
    */
-  News addNew(News news) throws DAOException;
+  String addNew(News news) throws DAOException;
 
   /**
    * method is for finding the new by category

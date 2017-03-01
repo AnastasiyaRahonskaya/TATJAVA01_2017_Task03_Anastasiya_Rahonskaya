@@ -5,6 +5,8 @@ import by.epam.catalog.service.NewsService;
 import by.epam.catalog.service.exception.ServiceException;
 import by.epam.catalog.service.factory.ServiceFactory;
 
+import java.util.ArrayList;
+
 /**
  * Class contains overridden method FindByTitle
  */
@@ -22,9 +24,9 @@ public class FindByTitle implements Command {
       String title = request.split("/")[1];
       ServiceFactory serviceFactory = ServiceFactory.getInstance();
       NewsService newsService = serviceFactory.getNewsService();
-      newsService.findByTitle(title);
+      ArrayList<String> list = newsService.findByTitle(title);
+      System.out.println(list.toString());
     } catch (ServiceException | ArrayIndexOutOfBoundsException e) {
-      //write log
       response = "Error while finding the news by title!";
       System.out.println(response);
     }

@@ -3,6 +3,8 @@ package by.epam.catalog.service;
 import by.epam.catalog.bean.News;
 import by.epam.catalog.service.exception.ServiceException;
 
+import java.util.ArrayList;
+
 /**
  * Class contains interface for Service layer
  */
@@ -13,7 +15,7 @@ public interface NewsService {
      * @param news - object of the class News
      * @throws ServiceException - exceptions caused by Service layer
      */
-    void addNew(News news) throws ServiceException;
+    String addNew(News news) throws ServiceException;
 
     /**
      * method is for finding the new by category
@@ -21,7 +23,7 @@ public interface NewsService {
      * @param category - new's category
      * @throws ServiceException - exceptions caused by Service layer
      */
-    void findByCategory(String category) throws ServiceException;
+    ArrayList<String> findByCategory(String category) throws ServiceException;
 
     /**
      * method is for finding thw new by title
@@ -29,7 +31,7 @@ public interface NewsService {
      * @param title - new's title
      * @throws ServiceException - exceptions caused by Service layer
      */
-    void findByTitle(String title) throws ServiceException;
+    ArrayList<String> findByTitle(String title) throws ServiceException;
 
     /**
      * method is for finding the news by author
@@ -37,7 +39,7 @@ public interface NewsService {
      * @param author - new's author
      * @throws ServiceException - exceptions caused by Service layer
      */
-    void findByAuthor(String author) throws ServiceException;
+    ArrayList<String> findByAuthor(String author) throws ServiceException;
 
     /**
      * method is for finding the news by date
@@ -45,5 +47,5 @@ public interface NewsService {
      * @param date - new's date
      * @throws ServiceException - exceptions caused by Service layer
      */
-    void findByDate(String date) throws ServiceException;
+    ArrayList<String> findByDate(String date) throws ServiceException;
 }

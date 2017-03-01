@@ -5,6 +5,8 @@ import by.epam.catalog.service.NewsService;
 import by.epam.catalog.service.exception.ServiceException;
 import by.epam.catalog.service.factory.ServiceFactory;
 
+import java.util.ArrayList;
+
 /**
  * Class contains overridden method FindByDate
  */
@@ -22,9 +24,9 @@ public class FindByDate implements Command {
       String date = request.split("/")[1];
       ServiceFactory serviceFactory = ServiceFactory.getInstance();
       NewsService newsService = serviceFactory.getNewsService();
-      newsService.findByDate(date);
+      ArrayList<String> list = newsService.findByDate(date);
+      System.out.println(list.toString());
     } catch (ServiceException | ArrayIndexOutOfBoundsException e) {
-      //write log
       response = "Error while finding the news by date!";
       System.out.println(response);
     }

@@ -80,4 +80,12 @@ public class News implements Serializable {
     result = 31 * result + (getDate() != null ? getDate().hashCode() : 0);
     return result;
   }
+
+  @Override
+  public String toString() {
+    return "category = '" + category + '\'' +
+        ", title = '" + title + '\'' +
+        ", author = '" + author + '\'' +
+        ", date = '" + date + '\'';
+  }
 }

@@ -26,11 +26,10 @@ public class AddNew implements Command {
       String date = request.split("/")[4];
       ServiceFactory serviceFactory = ServiceFactory.getInstance();
       NewsService newsService = serviceFactory.getNewsService();
-
-      newsService.addNew(new News(category, title, author, date));
+      String resultAdding = newsService.addNew(new News(category, title, author, date));
       response = "The new added!";
+      System.out.println(response);
     } catch (ServiceException | ArrayIndexOutOfBoundsException e) {
-      //write log
       response = "Error while adding the new!";
       System.out.println(response);
     }

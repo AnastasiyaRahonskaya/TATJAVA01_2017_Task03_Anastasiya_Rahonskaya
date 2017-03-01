@@ -13,7 +13,7 @@ import java.util.Map;
 public class CommandProvider {
     private final Map<CommandName, Command> repository = new HashMap<>();
 
-    CommandProvider() {
+    public CommandProvider() {
         repository.put(CommandName.ADD_NEW, new AddNew());
         repository.put(CommandName.FIND_BY_CATEGORY, new FindByCategory());
         repository.put(CommandName.FIND_BY_TITLE, new FindByTitle());

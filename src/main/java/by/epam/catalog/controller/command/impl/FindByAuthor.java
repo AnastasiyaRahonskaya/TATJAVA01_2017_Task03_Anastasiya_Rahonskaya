@@ -5,6 +5,8 @@ import by.epam.catalog.service.NewsService;
 import by.epam.catalog.service.exception.ServiceException;
 import by.epam.catalog.service.factory.ServiceFactory;
 
+import java.util.ArrayList;
+
 /**
  * Class contains overridden method FindByAuthor
  */
@@ -22,10 +24,9 @@ public class FindByAuthor implements Command {
       String author = request.split("/")[1];
       ServiceFactory serviceFactory = ServiceFactory.getInstance();
       NewsService newsService = serviceFactory.getNewsService();
-
-      newsService.findByAuthor(author);
+      ArrayList<String> list = newsService.findByAuthor(author);
+      System.out.println(list.toString());
     } catch (ServiceException | ArrayIndexOutOfBoundsException e) {
-      //write log
       response = "Error while finding the news by author!";
       System.out.println(response);
     }

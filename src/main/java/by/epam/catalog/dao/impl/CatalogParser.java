@@ -24,13 +24,14 @@ public class CatalogParser {
     String title = eElement.getElementsByTagName(TITLE).item(0).getTextContent();
     String author = eElement.getElementsByTagName(AUTHOR).item(0).getTextContent();
     String date = eElement.getElementsByTagName(DATE).item(0).getTextContent();
-    list.add("Category: " + category);
-    list.add("Title: " + title);
-    list.add("Author: " + author);
-    list.add("Date: " + date);
-    for (int i = 0; i < list.size(); i++) {
-      System.out.println(list.get(i) + " ");
-    }
+//    list.add("Category: " + category);
+//    list.add("Title: " + title);
+//    list.add("Author: " + author);
+//    list.add("Date: " + date);
+    list.add(category);
+    list.add(title);
+    list.add(author);
+    list.add(date);
     return list;
   }
 }
